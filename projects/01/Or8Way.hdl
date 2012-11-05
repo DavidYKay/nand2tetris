@@ -12,9 +12,6 @@ CHIP Or8Way {
     OUT out;
 
     PARTS:
-    // Put your code here.
-
-
     // First Layer
     Or(a = in[0],
     b = in[1],

@@ -12,8 +12,6 @@ CHIP Mux {
     OUT out;
 
     PARTS:
-    // Put your code here.
-
     // AB || A!B!SEL || !ABSEL
     
     Not(in = a, out = nota);

@@ -12,7 +12,6 @@ CHIP Not16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here.
     Not(in = in[0],
     out = out[0]);
 
