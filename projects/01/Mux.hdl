@@ -13,4 +13,40 @@ CHIP Mux {
 
     PARTS:
     // Put your code here.
+
+    // AB || A!B!SEL || !ABSEL
+    
+    Not(in = a, out = nota);
+    Not(in = b, out = notb);
+    Not(in = sel, out = notsel);
+
+    // First And
+    And(a=a,
+    b=b,
+    out=ab);
+    
+    // Second And
+    And(a=a,
+    b=notb,
+    out=anotb);
+    And(a=anotb,
+    b=notsel,
+    out=secondand);
+    
+    // Third And
+    And(a=nota,
+    b=b,
+    out=notab);
+    And(a=notab,
+    b=sel,
+    out=thirdand);
+
+    Or(a=ab,
+    b=secondand,
+    out=firstor);
+
+    Or(a=firstor,
+    b=thirdand,
+    out=out);
+
 }
