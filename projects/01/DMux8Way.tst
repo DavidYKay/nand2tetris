@@ -1,12 +1,12 @@
-// This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
+// This file is part of the materials accompanying the book 
+// "The Elements of Computing Systems" by Nisan and Schocken, 
+// MIT Press. Book site: www.idc.ac.il/tecs
 // File name: projects/01/DMux8Way.tst
 
 load DMux8Way.hdl,
 output-file DMux8Way.out,
 compare-to DMux8Way.cmp,
-output-list in%B2.1.2 sel%B2.2.2 a%B2.1.2 b%B2.1.2 c%B2.1.2 d%B2.1.2 e%B2.1.2 f%B2.1.2 g%B2.1.2 h%B2.1.2;
+output-list in%B2.1.2 sel%B2.3.2 a%B2.1.2 b%B2.1.2 c%B2.1.2 d%B2.1.2 e%B2.1.2 f%B2.1.2 g%B2.1.2 h%B2.1.2;
 
 set in 0,
 set sel %B000,
@@ -73,3 +73,4 @@ output;
 set sel %B111,
 eval,
 output;
+
