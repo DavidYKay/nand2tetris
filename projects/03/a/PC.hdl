@@ -17,8 +17,6 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here.
-
     // reset = reset
     // load = load!reset
     // increment = increment!load!reset
