@@ -19,5 +19,83 @@ CHIP RAM64 {
     OUT out[16];
 
     PARTS:
-    // Put your code here.
-}
+    
+    // Input handling
+    
+    DMux8Way(
+    in=load,
+    sel=address[3..5],
+    a=ramBank0Load,
+    b=ramBank1Load,
+    c=ramBank2Load,
+    d=ramBank3Load,
+    e=ramBank4Load,
+    f=ramBank5Load,
+    g=ramBank6Load,
+    h=ramBank7Load);
+    
+    // Ram Banks
+   
+    // Bank 0
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank0Load,
+    out=ramBank0Out);
+
+    // Bank 1
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank1Load,
+    out=ramBank1Out);
+
+    // Bank 2
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank2Load,
+    out=ramBank2Out);
+
+    // Bank 3
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank3Load,
+    out=ramBank3Out);
+
+    // Bank 4
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank4Load,
+    out=ramBank4Out);
+
+    // Bank 5
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank5Load,
+    out=ramBank5Out);
+
+    // Bank 6
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank6Load,
+    out=ramBank6Out);
+
+    // Bank 7
+    RAM8(in=in,
+    address=address[0..2],
+    load=ramBank7Load,
+    out=ramBank7Out);
+
+
+    // Output handling
+    Mux8Way16(
+    sel=address[3..5],
+    a=ramBank0Out,
+    b=ramBank1Out,
+    c=ramBank2Out,
+    d=ramBank3Out,
+    e=ramBank4Out,
+    f=ramBank5Out,
+    g=ramBank6Out,
+    h=ramBank7Out,
+    out=out);
+
+    }
