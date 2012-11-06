@@ -18,5 +18,73 @@ CHIP PC {
 
     PARTS:
     // Put your code here.
+
+    // reset = reset
+    // load = load!reset
+    // increment = increment!load!reset
+    // output = !reset!load!increment
+    
+    Not(in=reset,
+    out=notReset);
+    
+    Not(in=load,
+    out=notLoad);
+    
+    Not(in=inc,
+    out=notIncrement);
+    
+    // Load register flag
+    Or(a=reset,
+    b=load,
+    out=halfRegisterFlag);
+    Or(a=halfRegisterFlag,
+    b=inc,
+    out=loadRegisterFlag);
+    
+    // Increment Vaue
+
+    Inc16(
+    in=registerOut,
+    out=incrementValue);
+
+    // Mux sel[1]
+
+    And(a=notReset,
+    b=notLoad,
+    out=muxSel1);
+    
+    // Mux sel[0]
+   
+    And(a=notLoad,
+    b=notIncrement,
+    out=notLoadNotIncrement);
+
+    Or(a=notLoadNotIncrement,
+    b=load,
+    out=muxSel0Half);
+    
+    And(a=notReset,
+    b=muxSel0Half,
+    out=muxSel0);
+    
+    // sel[0] = !reset(!load!increment + load)
+    // sel[1] = !reset!load
+
+    Mux4Way16(
+    a=false,
+   b=in,
+    c=incrementValue,
+    d=registerOut,
+    sel[0]=muxSel0,
+    sel[1]=muxSel1,
+    out=registerIn);
+
+    Register(in=registerIn,
+    load=loadRegisterFlag,
+    out=registerOut);
+
+    Or16(a=registerOut,
+    out=out);
+
 }
 

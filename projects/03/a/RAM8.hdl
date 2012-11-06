@@ -33,6 +33,8 @@ CHIP RAM8 {
     g=register6Load,
     h=register7Load);
 
+    // Registers
+
     Register(in=in, load=register0Load, out=register0Out);
     Register(in=in, load=register1Load, out=register1Out);
     Register(in=in, load=register2Load, out=register2Out);

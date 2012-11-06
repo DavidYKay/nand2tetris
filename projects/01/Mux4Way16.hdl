@@ -19,7 +19,6 @@ CHIP Mux4Way16 {
 
     OUT out[16];
 
-
     PARTS:
     Mux16(a=a,
     b=b,
