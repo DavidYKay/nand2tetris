@@ -15,4 +15,38 @@ CHIP Bit {
 
     PARTS:
     // Put your code here.
+
+    
+    // Naive approach
+    // Mux(b=in,
+    // sel=load,
+    // out=muxOut);
+    // 
+    // DFF(in=muxOut,
+    // out=out);
+    
+    // Emit output after a cycle
+    DFF(in=muxOut,
+    out=flipFlopOut);
+    
+    Mux(a=flipFlopOut,
+    b=in,
+    sel=load,
+    out=muxOut);
+
+    Or(a=flipFlopOut,
+    out=out);
+            
+    // // Emit output NOW
+    // DFF(in=muxOut,
+    // out=flipFlopOut);
+    // 
+    // Mux(a=flipFlopOut,
+    // b=in,
+    // sel=load,
+    // out=muxOut);
+
+    // Or(a=muxOut,
+    // out=out);
+
 }
