@@ -14,8 +14,6 @@ CHIP Bit {
     OUT out;
 
     PARTS:
-    // Put your code here.
-
     
     // Naive approach
     // Mux(b=in,
