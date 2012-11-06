@@ -49,4 +49,98 @@ CHIP ALU {
 
     PARTS:
     // Put your code here.
+
+    // ZX
+
+    Mux4Way16(a=x,
+    b=false,
+    sel[0]=zx,
+    out=zeroedX);
+    
+    // NX
+    
+    Not16(in=zeroedX,
+    out=flippedX);
+    
+    Mux4Way16(a=x,
+    b=flippedX,
+    sel[0]=nx,
+    out=internalX);
+
+    // ZY
+
+    Mux4Way16(a=y,
+    b=false,
+    sel[0]=zy,
+    out=zeroedY);
+    
+    // NY
+
+    Not16(in=zeroedY,
+    out=flippedY);
+
+    Mux4Way16(a=y,
+    b=flippedY,
+    sel[0]=ny,
+    out=internalY);
+    
+    // Anding
+    And16(a=internalX,
+    b=internalY,
+    out=andingresult);
+    
+    // Addition
+    Add16(a=internalX,
+    b=internalY,
+    out=additionresult);
+
+    // F column
+    
+    Mux4Way16(a=andingresult,
+    b=additionresult,
+    sel[0]=f,
+    out=fresult);
+
+    Not16(in=fresult,
+    out=notout);
+    
+    // "no" and "out" column 
+
+    Mux4Way16(a=fresult,
+    b=notout,
+    sel[0]=no,
+    out=finalout);
+    
+    // ZR output
+    // 1 if (out == 0), 0 otherwise
+
+    Splitter16(in=finalout,
+        a=finaloutleft,
+        b=finaloutright);
+
+    Or8Way(in=finaloutleft,
+    out=leftzr);
+    Or8Way(in=finaloutright,
+    out=rightzr);
+
+    Or8Way(in[0]=leftzr,
+    in[1]=rightzr,
+    out=orredzr);
+
+    Or16(a=finalout,
+    out=out);
+
+    Not(in=orredzr,
+    out=zr);
+    
+    // NG output
+    // 1 if (out < 0),  0 otherwise
+
+    Trim16(in=finalout,
+    a=signbit);
+
+    And(a=signbit,
+    b=true,
+    out=ng);
+
 }

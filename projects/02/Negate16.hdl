@@ -1,0 +1,14 @@
+CHIP Negate16 {
+    IN  
+        in[16];
+    OUT
+        out[16];
+    PARTS:
+
+    Not16(in=in,
+    out=flipped);
+    Inc16(in=flipped,
+    out=out);
+
+        
+}

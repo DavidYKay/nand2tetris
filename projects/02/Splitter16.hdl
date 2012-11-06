@@ -1,0 +1,14 @@
+CHIP Splitter16 {
+    IN  
+        in[16];
+    OUT
+        a[8],
+        b[8];
+    PARTS:
+        Or16(a[0..7]=in[0..7],
+        out[0..7]=a);
+        
+        Or16(a[0..7]=in[8..15],
+        out[0..7]=b);
+    
+}
