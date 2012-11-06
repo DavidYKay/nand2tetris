@@ -13,9 +13,6 @@ CHIP Add16 {
     OUT out[16];
 
     PARTS:
-    // Put your code here.
-    
-
     FullAdder(
     a=a[0],
     b=b[0],
