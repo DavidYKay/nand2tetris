@@ -62,7 +62,7 @@ CHIP ALU {
     Not16(in=zeroedX,
     out=flippedX);
     
-    Mux4Way16(a=x,
+    Mux4Way16(a=zeroedX,
     b=flippedX,
     sel[0]=nx,
     out=internalX);
@@ -79,7 +79,7 @@ CHIP ALU {
     Not16(in=zeroedY,
     out=flippedY);
 
-    Mux4Way16(a=y,
+    Mux4Way16(a=zeroedY,
     b=flippedY,
     sel[0]=ny,
     out=internalY);
