@@ -19,8 +19,6 @@ CHIP RAM16K {
     OUT out[16];
 
     PARTS:
-    // Put your code here.
-    
     DMux4Way(
     in=load,
     sel=address[12..13],
