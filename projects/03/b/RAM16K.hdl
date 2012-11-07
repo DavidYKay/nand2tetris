@@ -20,4 +20,47 @@ CHIP RAM16K {
 
     PARTS:
     // Put your code here.
+    
+    DMux4Way(
+    in=load,
+    sel=address[12..13],
+    a=ramBank0Load,
+    b=ramBank1Load,
+    c=ramBank2Load,
+    d=ramBank3Load);
+    
+    // Ram Banks
+   
+    // Bank 0
+    RAM4K(in=in,
+    address=address[0..11],
+    load=ramBank0Load,
+    out=ramBank0Out);
+
+    // Bank 1
+    RAM4K(in=in,
+    address=address[0..11],
+    load=ramBank1Load,
+    out=ramBank1Out);
+
+    // Bank 2
+    RAM4K(in=in,
+    address=address[0..11],
+    load=ramBank2Load,
+    out=ramBank2Out);
+
+    // Bank 3
+    RAM4K(in=in,
+    address=address[0..11],
+    load=ramBank3Load,
+    out=ramBank3Out);
+
+    // Output handling
+    Mux4Way16(
+    sel=address[12..13],
+    a=ramBank0Out,
+    b=ramBank1Out,
+    c=ramBank2Out,
+    d=ramBank3Out,
+    out=out);
 }
