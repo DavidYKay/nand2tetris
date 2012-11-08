@@ -14,6 +14,10 @@
 // output  = R2
 
 
+// Zero out the output
+@2
+M = 0
+
 // let's not modify the original counter
 @1
 D = M
@@ -29,7 +33,7 @@ M = D
 // @1 // -> no longer. now using our own counter
 (Loop)
 @500   // our counter
-D = M[1]
+D = M
 @Done
 D;JEQ
 
@@ -43,7 +47,7 @@ D = M     // Load multiplicand to D register
 
 // @RAM[2]
 @2
-M = M + D // Add the multiplicand to the outpu
+M = M + D // Add the multiplicand to the output
 
 //   decrement counter
 // @RAM[1]
