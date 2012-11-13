@@ -19,10 +19,10 @@
 // else:
 //   D = WHITE
 //@7
-// @11111
-// D = A
-//@paintColor  // Save the paintColor for later use
-//M = D
+@1
+D = A
+@paintColor  // Save the paintColor for later use
+M = D
 
 @SCREEN        // = 16384
 D = A
@@ -34,15 +34,17 @@ M = D
 // divide by 16 == 32 x 16
 // 131072 pixels or 512 iterations through the loop
 
-
 // Paint the squares to the screen
 
 //@paintColor 
 //D = M
 
 (PaintLoop)
-@11111
-D = A
+
+@paintColor
+//@11111
+//@1
+D = M
 
 @paintPointer
 A = M // load the paint location into A register
