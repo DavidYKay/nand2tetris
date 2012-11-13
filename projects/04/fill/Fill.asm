@@ -27,8 +27,11 @@ D;JEQ  // white if no key
 
 // Black color here
 //@65535
-@32767
+//@32767
+//@32767
+@1
 D = A
+D = -D
 @paintColor  // Save the paintColor for later use
 M = D
 
@@ -67,10 +70,11 @@ A = M // load the paint location into A register
 M = D // paint the pixel to the color
 
 // Increment paintPointer
-//@16
-//D = A
-//@paintPointer
-//M = M + D
+// @16
+// D = A
+// @paintPointer
+// M = M + D
+
 @paintPointer
 M = M + 1
 
