@@ -18,11 +18,32 @@
 //   D = BLACK
 // else:
 //   D = WHITE
-//@7
-@1
+@KBD
+D = M
+
+@WhiteColor
+D;JEQ  // white if no key
+
+
+// Black color here
+//@65535
+@32767
 D = A
 @paintColor  // Save the paintColor for later use
 M = D
+
+@ColorDone
+0;JMP   // Jump to after color selection
+
+(WhiteColor)
+// White color here
+
+@0
+D = A
+@paintColor  // Save the paintColor for later use
+M = D
+
+(ColorDone)
 
 @SCREEN        // = 16384
 D = A
@@ -36,14 +57,9 @@ M = D
 
 // Paint the squares to the screen
 
-//@paintColor 
-//D = M
-
 (PaintLoop)
 
 @paintColor
-//@11111
-//@1
 D = M
 
 @paintPointer
