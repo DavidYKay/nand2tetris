@@ -26,9 +26,7 @@ D;JEQ  // white if no key
 
 
 // Black color here
-//@65535
-//@32767
-//@32767
+// -1 means all bits are hot
 @1
 D = A
 D = -D
@@ -69,12 +67,7 @@ D = M
 A = M // load the paint location into A register
 M = D // paint the pixel to the color
 
-// Increment paintPointer
-// @16
-// D = A
-// @paintPointer
-// M = M + D
-
+// Increment paintPointer to next position
 @paintPointer
 M = M + 1
 
@@ -82,16 +75,11 @@ M = M + 1
 
 @paintPointer
 D = M
-// D = @144756 - D  // Max paint position
-// D = @-144756 + D // Max paint position
-//@512
 @24576              // Debugger-derived last position
-//@16896            // Max Paint position
 D = D - A           // Max paint position
 
 // Repeat loop
 @PaintLoop
-// D;JGT
 D;JLT
 
 @MainLoop
