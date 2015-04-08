@@ -39,7 +39,6 @@ CHIP CPU {
 
     PARTS:
 
-
     // A or C instruction
     DMux(in=...,
     sel=instruction[15],
@@ -47,9 +46,9 @@ CHIP CPU {
     b=cInstructionActive);
 
     // A Register: Input Multiplexer: ALU Out or Instruction 
-    Mux16(a=aluOut,
-    b=instruction[0..14],
-    sel=aRegisterSelector,
+    Mux16(a=instruction[0..14],
+    b=aluOut,
+    sel=registerALoadALU,
     out=registerAIn);
 
     // A register
@@ -193,11 +192,9 @@ CHIP CPU {
     b=aluOut,
     out=outM)
 
-    // TODO: A register input: ALU/Instruction selector
+    // TODO: A register input: load pin
     // TODO: ALU input: Memory / A register selector
     // TODO: decode instruction
-    // TODO: programCounter control bits
     // TODO: ALU control bits
-    // TODO: writeM
 
 }
