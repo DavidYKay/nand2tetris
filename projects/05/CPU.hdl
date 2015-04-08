@@ -44,36 +44,32 @@ CHIP CPU {
     DMux(in=...,
     sel=instruction[15],
     a=aInstructionActive,
-    b=bInstructionActive);
+    b=cInstructionActive);
 
     // A Register: Input Multiplexer: ALU Out or Instruction 
-    Mux16(
-    a=aluOut,
-    b=instruction,
+    Mux16(a=aluOut,
+    b=instruction[0..14],
     sel=aRegisterSelector,
     out=registerAIn);
 
     // A register
-    Register(
-    in=registerAIn,
+    Register(in=registerAIn,
     out=registerAOut,
     load=registerALoad);
 
     // D register
-    Register(
-    in=aluOut,
+    Register(in=aluOut,
     out=registerDOut,
     load=registerDLoad);
     
     // ALU Input Multiplexer: Reg A or RAM
-    Mux16(
-    a=registerAOut,
+
+    Mux16(a=registerAOut,
     b=inM,
     sel=memoryOrRegisterASelector,
     out=memoryOrRegisterAOut);
     
-    ALU(
-    x=registerDOut,
+    ALU(x=registerDOut,
     y=memoryOrRegisterAOut,
     zx=..., 
     nx=..., 
@@ -83,11 +79,105 @@ CHIP CPU {
     no=...,
 
     out=aluOut,
-    zr=...,
-    ng=...);
+    zr=aluZero,
+    ng=aluNegative);
+
+    // Sign flags
+
+    Not(in=aluZero,
+    out=aluNonZero);
+    
+    Not(in=aluNegative,
+    out=aluNonNegative);
+
+    And(a=aluNonZero
+    b=aluNonNegative
+    out=aluPositive);
+    
+    Not(in=aluPositive,
+    out=aluNonPositive);
+    
+    Or(a=aluZero,
+    b=aluNegative,
+    out=aluLessThanOrEqualToZero);
+    
+    // Routing ALU Output
+    
+    And(a=cInstructionActive
+    b=instruction[5]
+    out=registerALoadALU);
+    
+    And(a=cInstructionActive
+    b=instruction[4]
+    out=registerDLoad);
+
+    And(a=cInstructionActive
+    b=instruction[3]
+    out=writeM);
+
+    // Jump Handling
+
+    // case
+    // 000: no
+    // 001 and out > 0: jump
+    // 010 and out == 0: jump
+    // 011 and out >= 0: jump
+    // 100 and out < 0: jump
+    // 101 and out != 0: jump
+    // 110 and out <= 0: jump
+    // 111: jump
+
+    DMux8Way(
+    in=jumpBits,
+    a=noJump,
+    b=jumpIfPositive,
+    c=jumpIfZero,
+    d=jumpIfPositiveOrZero,
+    e=jumpIfNegative,
+    f=jumpIfNonZero,
+    g=jumpIfNegativeOrZero,
+    h=jumpRegardless);
+    
+    And(a=jumpIfPositive,
+    b=aluPositive,
+    out=jumpIfPositiveTrue);
+
+    And(a=jumpIfZero,
+    b=aluZero,
+    out=jumpIfZeroTrue);
+
+    And(a=jumpIfPositiveOrZero,
+    b=aluNonNegative,
+    out=jumpIfPositiveOrZeroTrue);
+    
+    And(a=jumpIfNegative,
+    b=aluNegative,
+    out=jumpIfNegativeTrue);
+
+    And(a=jumpIfNonZero,
+    b=aluNonZero,
+    out=jumpIfNonZeroTrue);
+    
+    And(a=jumpIfNegativeOrZero,
+    b=aluNonPositive,
+    out=jumpIfNegativeOrZeroTrue);
+
+    Or8Way(in[0]=jumpIfPositiveTrue,
+    in[1]=jumpIfZeroTrue,
+    in[2]=jumpIfPositiveOrZeroTrue,
+    in[3]=jumpIfNegativeTrue,
+    in[4]=jumpIfNonZeroTrue,
+    in[5]=jumpIfNegativeOrZeroTrue,
+    in[6]=jumpRegardless,
+    out=jumpActive);
+
+    Not(in=jumpActive,
+    out=programCounterInc);
+    
+    // Program Counter
 
     PC(reset=reset,
-    load=programCounterLoad,
+    load=jumpActive,
     inc=programCounterInc,
     in=registerAOut,
     out=pc[0..14]);
@@ -95,21 +185,19 @@ CHIP CPU {
     //////////////////// 
     // Outputs
     //////////////////// 
-
-    Or16(
-    a=registerAOut[0..14],
-    b=registerAOut[0..14],
-    out=addressM)
     
-    Or16(
-    a=aluOut,
+    Trim16(in=registerAOut,
+    b=addressM);
+    
+    Or16(a=aluOut,
     b=aluOut,
     out=outM)
 
-    // TODO: writeM
+    // TODO: A register input: ALU/Instruction selector
+    // TODO: ALU input: Memory / A register selector
     // TODO: decode instruction
     // TODO: programCounter control bits
     // TODO: ALU control bits
-    // TODO: Memory / A register selector
+    // TODO: writeM
 
 }
