@@ -27,5 +27,27 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Put your code here.
+
+    DMux(in=load,
+    sel=address[14],
+    a=mainRamLoad,
+    b=secondaryRamLoad);
+
+    RAM16K(
+    in=in,
+    address=address[0..13],
+    load=mainRamLoad,
+    out=mainRamOut);
+    
+    RAM16K(
+    in=in,
+    address=address[0..13],
+    load=secondaryRamLoad,
+    out=secondaryRamOut);
+
+    Mux16(
+        a = mainRamOut,
+        b = secondaryRamOut,
+        sel = address[14],
+        out = out);
 }
