@@ -37,6 +37,79 @@ CHIP CPU {
         addressM[15],    // RAM address (of M)
         pc[15];          // ROM address (of next instruction)
 
-     PARTS:
-    // Put your code here.
+    PARTS:
+
+
+    // A or C instruction
+    DMux(in=...,
+    sel=instruction[15],
+    a=aInstructionActive,
+    b=bInstructionActive);
+
+    // A Register: Input Multiplexer: ALU Out or Instruction 
+    Mux16(
+    a=aluOut,
+    b=instruction,
+    sel=aRegisterSelector,
+    out=registerAIn);
+
+    // A register
+    Register(
+    in=registerAIn,
+    out=registerAOut,
+    load=registerALoad);
+
+    // D register
+    Register(
+    in=aluOut,
+    out=registerDOut,
+    load=registerDLoad);
+    
+    // ALU Input Multiplexer: Reg A or RAM
+    Mux16(
+    a=registerAOut,
+    b=inM,
+    sel=memoryOrRegisterASelector,
+    out=memoryOrRegisterAOut);
+    
+    ALU(
+    x=registerDOut,
+    y=memoryOrRegisterAOut,
+    zx=..., 
+    nx=..., 
+    zy=..., 
+    ny=..., 
+    f=...,  
+    no=...,
+
+    out=aluOut,
+    zr=...,
+    ng=...);
+
+    PC(reset=reset,
+    load=programCounterLoad,
+    inc=programCounterInc,
+    in=registerAOut,
+    out=pc[0..14]);
+
+    //////////////////// 
+    // Outputs
+    //////////////////// 
+
+    Or16(
+    a=registerAOut[0..14],
+    b=registerAOut[0..14],
+    out=addressM)
+    
+    Or16(
+    a=aluOut,
+    b=aluOut,
+    out=outM)
+
+    // TODO: writeM
+    // TODO: decode instruction
+    // TODO: programCounter control bits
+    // TODO: ALU control bits
+    // TODO: Memory / A register selector
+
 }
